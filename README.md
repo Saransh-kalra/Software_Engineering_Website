@@ -1,37 +1,39 @@
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/Saransh-kalra/Software_Engineering_Website/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Saransh-kalra/Software_Engineering_Website/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset = "utf-8">
+	<title>Google maps API use</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+	<div style="padding:10px;">
+	Search <input type="text" id="search" placeholder="Enter Location">
+	<button type="button" onclick="myFunction()">Submit</button>
+	</div>
+	<iframe id = "frame1"
+	  frameborder="0" style="border:0"
+	  style="position:fixed; top:0; left:0; bottom:0; right:0; margin:0; padding:0;"
+	  height="500"
+	  width="1200"
+	  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDNRmufQHfCRrlCbsx_n_VNoSSploKRB2c
+	    &q=Holden+Hall" allowfullscreen>
+	</iframe>
+	<iframe id = "frame2"
+	  frameborder="0" style="border:0"
+	  style="position:fixed; top:0; left:0; bottom:0; right:0; margin:0; padding:0;"
+	  height="500"
+	  width="200"
+	  src="https://api.openweathermap.org/data/2.5/weather?q=London&mode=html&APPID=d9dca2d4ffaa960fcb0da6f0f6e00115" allowfullscreen>
+	</iframe>
+	
+	<script>
+		function myFunction() {
+			var x = document.getElementById("search").value; 
+			document.getElementById("frame1").src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDNRmufQHfCRrlCbsx_n_VNoSSploKRB2c&q="+x.replace(" ","+");
+			$.getJSON("https://api.opencagedata.com/geocode/v1/geojson?q=" + x.replace(" ","+") + "&key=0a271cf946a0439180ba806ebadf4a91", function(result){
+				document.getElementById("frame2").src = "https://api.openweathermap.org/data/2.5/weather?lat=" + parseFloat(result.features[0].geometry.coordinates[1]).toPrecision(4) + "&lon=" + parseFloat(result.features[0].geometry.coordinates[0]).toPrecision(4) + "&mode=html&APPID=d9dca2d4ffaa960fcb0da6f0f6e00115";
+		    });  
+		}
+	</script>
+</body>
+</html>
