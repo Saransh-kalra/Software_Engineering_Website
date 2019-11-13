@@ -5,36 +5,173 @@
 	<title>Google maps API use</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
-<body>
-	<div style="padding:10px;">
-	Search <input type="text" id="search" placeholder="Enter Location">
-	<button type="button" onclick="myFunction()">Submit</button>
+<body style = "background-color: #000000">
+
+	<div style="padding:5px;margin:5px;text-align: center; background-color:#202020">
+		<input type="text" id="search" placeholder="Enter Location">
+		<button type="button" onclick="myFunction()">Search</button>
 	</div>
-	<iframe id = "frame1"
+	<div style = "margin-left: 5px;"><iframe id = "frame1"
 	  frameborder="0" style="border:0"
 	  style="position:fixed; top:0; left:0; bottom:0; right:0; margin:0; padding:0;"
-	  height="500"
-	  width="1200"
-	  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDNRmufQHfCRrlCbsx_n_VNoSSploKRB2c
-	    &q=Holden+Hall" allowfullscreen>
-	</iframe>
-	<iframe id = "frame2"
-	  frameborder="0" style="border:0"
-	  style="position:fixed; top:0; left:0; bottom:0; right:0; margin:0; padding:0;"
-	  height="500"
-	  width="200"
-	  src="https://api.openweathermap.org/data/2.5/weather?q=London&mode=html&APPID=d9dca2d4ffaa960fcb0da6f0f6e00115" allowfullscreen>
-	</iframe>
-	
+	  height="450"
+	  width="1415"
+	  allowfullscreen>
+	</iframe></div>
+	<div id = "parent">
+		<div class = "day">
+			<h1 id = "head1"></h1>
+			<div class = "center"><iframe frameborder="0" style="border:0"
+		  		style="position:fixed; top:0; left:0; bottom:0; right:0; margin:0; padding:0;"
+		 		 height="50"
+		  		width="50"id = "icon_1"></iframe></div>
+			<h3 id="summary_1"></h3>
+			<h3 id="temp_1"></h3>
+		</div>
+		<div class = "day" >
+			<h1 id = "head2"></h1>
+			<div class = "center"><iframe frameborder="0" style="border:0"
+		  		style="position:fixed; top:0; left:0; bottom:0; right:0; margin:0; padding:0;"
+		 		 height="50"
+		  		width="50" id = "icon_2"></iframe></div>
+			<h3 id="summary_2"></h3>
+			<h3 id="temp_2"></h3>
+			<h3 id="range_2"></h3>
+		</div>
+		<div class = "day" >
+			<h1 id = "head3"></h1>
+			<div class = "center"><iframe frameborder="0" style="border:0"
+		  		style="position:fixed; top:0; left:0; bottom:0; right:0; margin:0; padding:0;"
+		 		 height="50"
+		  		width="50"id = "icon_3"></iframe></div>
+			<h3 id="summary_3"></h3>
+			<h3 id="temp_3"></h3>
+			<h3 id="range_3"></h3>
+		</div>
+		<div class = "day" >
+			<h1 id = "head4"></h1>
+			<div class = "center"><iframe frameborder="0" style="border:0"
+		  		style="position:fixed; top:0; left:0; bottom:0; right:0; margin:0; padding:5;"
+		 		 height="50"
+		  		width="50"id = "icon_4"></iframe></div>
+			<h3 id="summary_4"></h3>
+			<h3 id="temp_4"></h3>
+			<h3 id="range_4"></h3>
+		</div>
+		<div class = "day" >
+			<h1 id = "head5"></h1>
+			<div class = "center"><iframe frameborder="0" style="border:0"
+		  		style="position:fixed; top:0; left:0; bottom:0; right:0; margin:0; padding:0;"
+		 		 height="50"
+		  		width="50"id = "icon_5"></iframe></div>
+			<h3 id="summary_5"></h3>
+			<h3 id="temp_5"></h3>
+			<h3 id="range_5"></h3>
+		</div>
+	</div>
 	<script>
 		function myFunction() {
+			document.getElementById("parent").style = "margin:5px;";
+			var t = document.getElementsByClassName("day");
+			var i;
+			for (i = 0; i < t.length; i++) {
+			  t[i].style.backgroundColor = "#cecece";
+			}
+			n =  new Date();
+			y = n.getFullYear();
+			m = n.getMonth();
+			d = n.getDate();
+			document.getElementById("head1").innerHTML = "Current Weather";
+			document.getElementById("head2").innerHTML = m + "/" + (parseInt(d)+parseInt(1)) + "/" + y;
+			document.getElementById("head3").innerHTML = m + "/" + (parseInt(d)+parseInt(2)) + "/" + y;
+			document.getElementById("head4").innerHTML = m + "/" + (parseInt(d)+parseInt(3)) + "/" + y;
+			document.getElementById("head5").innerHTML = m + "/" + (parseInt(d)+parseInt(4)) + "/" + y;
+
 			var x = document.getElementById("search").value; 
 			document.getElementById("frame1").src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDNRmufQHfCRrlCbsx_n_VNoSSploKRB2c&q="+x.replace(" ","+");
 			$.getJSON("https://api.opencagedata.com/geocode/v1/geojson?q=" + x.replace(" ","+") + "&key=0a271cf946a0439180ba806ebadf4a91", function(result){
-				document.getElementById("frame2").src = "https://api.openweathermap.org/data/2.5/weather?lat=" + parseFloat(result.features[0].geometry.coordinates[1]).toPrecision(4) + "&lon=" + parseFloat(result.features[0].geometry.coordinates[0]).toPrecision(4) + "&mode=html&APPID=d9dca2d4ffaa960fcb0da6f0f6e00115";
+				$.getJSON("https://api.openweathermap.org/data/2.5/forecast?lat=" + parseFloat(result.features[0].geometry.coordinates[1]).toPrecision(4) + "&lon=" + parseFloat(result.features[0].geometry.coordinates[0]).toPrecision(4) + "&units=imperial&APPID=d9dca2d4ffaa960fcb0da6f0f6e00115", function(weather_data){
+					var i = 1;
+					while(weather_data.list[i].dt_txt[12] != "0" && weather_data.list[i].dt_txt[13] != "0"){
+						i++;
+					}
+					document.getElementById("summary_1").textContent = weather_data.list[0].weather[0].description;
+					document.getElementById("icon_1").src="http://openweathermap.org/img/w/" + weather_data.list[0].weather[0].icon + ".png";
+					document.getElementById("temp_1").textContent = Math.floor(weather_data.list[0].main.temp) + " deg F";
+
+					document.getElementById("summary_2").textContent = weather_data.list[8].weather[0].description;
+					document.getElementById("icon_2").src="http://openweathermap.org/img/w/" + weather_data.list[8].weather[0].icon + ".png";
+					document.getElementById("temp_2").textContent = Math.floor(weather_data.list[8].main.temp) + " deg F";
+					document.getElementById("range_2").innerHTML = "Range: "+ Math.min(parseInt(weather_data.list[i].main.temp_min),parseInt(weather_data.list[i+1].main.temp_min),parseInt(weather_data.list[i+2].main.temp_min),parseInt(weather_data.list[i+3].main.temp_min),parseInt(weather_data.list[i+4].main.temp_min),parseInt(weather_data.list[i+5].main.temp_min),parseInt(weather_data.list[i+6].main.temp_min),parseInt(weather_data.list[i+7].main.temp_min)) + " to " + Math.max(parseInt(weather_data.list[i].main.temp_max),parseInt(weather_data.list[i+1].main.temp_max),parseInt(weather_data.list[i+2].main.temp_max),parseInt(weather_data.list[i+3].main.temp_max),parseInt(weather_data.list[i+4].main.temp_max),parseInt(weather_data.list[i+5].main.temp_max),parseInt(weather_data.list[i+6].main.temp_max),parseInt(weather_data.list[i+7].main.temp_max))+ " deg F";
+					i = i + 8;
+					document.getElementById("summary_3").textContent = weather_data.list[16].weather[0].description;
+					document.getElementById("icon_3").src="http://openweathermap.org/img/w/" + weather_data.list[16].weather[0].icon + ".png";
+					document.getElementById("temp_3").textContent = Math.floor(weather_data.list[16].main.temp) + " deg F";
+					document.getElementById("range_3").innerHTML = "Range: "+ Math.min(parseInt(weather_data.list[i].main.temp_min),parseInt(weather_data.list[i+1].main.temp_min),parseInt(weather_data.list[i+2].main.temp_min),parseInt(weather_data.list[i+3].main.temp_min),parseInt(weather_data.list[i+4].main.temp_min),parseInt(weather_data.list[i+5].main.temp_min),parseInt(weather_data.list[i+6].main.temp_min),parseInt(weather_data.list[i+7].main.temp_min)) + " to " + Math.max(parseInt(weather_data.list[i].main.temp_max),parseInt(weather_data.list[i+1].main.temp_max),parseInt(weather_data.list[i+2].main.temp_max),parseInt(weather_data.list[i+3].main.temp_max),parseInt(weather_data.list[i+4].main.temp_max),parseInt(weather_data.list[i+5].main.temp_max),parseInt(weather_data.list[i+6].main.temp_max),parseInt(weather_data.list[i+7].main.temp_max))+ " deg F";
+					i = i + 8;
+					document.getElementById("summary_4").textContent = weather_data.list[24].weather[0].description;
+					document.getElementById("icon_4").src = "http://openweathermap.org/img/w/" + weather_data.list[24].weather[0].icon + ".png";
+					document.getElementById("temp_4").textContent = Math.floor(weather_data.list[24].main.temp) + " deg F";
+					document.getElementById("range_4").innerHTML = "Range: "+ Math.min(parseInt(weather_data.list[i].main.temp_min),parseInt(weather_data.list[i+1].main.temp_min),parseInt(weather_data.list[i+2].main.temp_min),parseInt(weather_data.list[i+3].main.temp_min),parseInt(weather_data.list[i+4].main.temp_min),parseInt(weather_data.list[i+5].main.temp_min),parseInt(weather_data.list[i+6].main.temp_min),parseInt(weather_data.list[i+7].main.temp_min)) + " to " + Math.max(parseInt(weather_data.list[i].main.temp_max),parseInt(weather_data.list[i+1].main.temp_max),parseInt(weather_data.list[i+2].main.temp_max),parseInt(weather_data.list[i+3].main.temp_max),parseInt(weather_data.list[i+4].main.temp_max),parseInt(weather_data.list[i+5].main.temp_max),parseInt(weather_data.list[i+6].main.temp_max),parseInt(weather_data.list[i+7].main.temp_max))+ " deg F";
+					i = i + 8;
+					document.getElementById("summary_5").textContent = weather_data.list[32].weather[0].description;
+					document.getElementById("icon_5").src = "http://openweathermap.org/img/w/" + weather_data.list[32].weather[0].icon + ".png";
+					document.getElementById("temp_5").textContent = Math.floor(weather_data.list[32].main.temp) + " deg F";
+					document.getElementById("range_5").innerHTML = "Range: "+ Math.min(parseInt(weather_data.list[i].main.temp_min),parseInt(weather_data.list[i+1].main.temp_min),parseInt(weather_data.list[i+2].main.temp_min),parseInt(weather_data.list[i+3].main.temp_min),parseInt(weather_data.list[i+4].main.temp_min),parseInt(weather_data.list[i+5].main.temp_min),parseInt(weather_data.list[i+6].main.temp_min),parseInt(weather_data.list[i+7].main.temp_min)) + " to " + Math.max(parseInt(weather_data.list[i].main.temp_max),parseInt(weather_data.list[i+1].main.temp_max),parseInt(weather_data.list[i+2].main.temp_max),parseInt(weather_data.list[i+3].main.temp_max),parseInt(weather_data.list[i+4].main.temp_max),parseInt(weather_data.list[i+5].main.temp_max),parseInt(weather_data.list[i+6].main.temp_max),parseInt(weather_data.list[i+7].main.temp_max)) + " deg F";
+				});
 		    });  
 		}
 	</script>
+	<style>
+		input[type=text] {
+			background-color: #202020;
+		    width: 110px;
+		    opacity: 0.5;
+		    color: #ffffff;
+		    -webkit-transition: width 0.5s ease-in-out;
+		    transition: width 0.5s ease-in-out;
+		    font-size: 16px;
+		    border: 1px solid #DDDDDD;
+		    
+		}
+
+		input[type=text]:focus {
+		    width: 90%;
+		    opacity: 1;
+		}
+
+		button {
+		   background-color: #ababab;
+		   border: none;
+		   color: #ffffff;
+		   text-align: center;
+		   -webkit-transition-duration: 0.4s;
+		   transition-duration: 0.4s;
+		   text-decoration: none;
+		   font-size: 16px;
+		   cursor: pointer;
+		   opacity: 0.5;
+		}
+		button:hover {
+			opacity: 1;
+		}
+
+		.day {
+			display: inline-grid;
+			width: 278px;
+			height: 320px;
+			text-align: center;
+		}
+		.center {
+			justify-content: center;
+		}
+		#iframe_1 {
+			margin: 5px;
+			padding: 5px;
+		}
+		
+	</style>
+
 </body>
 </html>
 
